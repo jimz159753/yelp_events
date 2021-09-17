@@ -17,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: `Bearer qUcBvShh41-Z07CaWpBQOf5wduzJ8suomUS47k15F6_TLNGlKVyEIHy7tdRuOCQjKHMIlW5DZl14IooYtJhy5hTTgafFVyu3h8i-tyuIqFwhOYvCY0pOUN4cJZlDYXYx`,
+      authorization: process.env.BEARER_TOKEN,
     },
   };
 });
