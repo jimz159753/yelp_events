@@ -1,5 +1,4 @@
 import React from "react";
-import { Text, View, ScrollView } from "react-native";
 import {
   ApolloClient,
   createHttpLink,
@@ -8,16 +7,18 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import Routes from "./src/Routes";
+import env from "./env";
 
 const httpLink = createHttpLink({
   uri: "https://api.yelp.com/v3/graphql",
 });
+console.log("process.env.BEARER_TOKEN", env.BEARER_TOKEN);
 
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: process.env.BEARER_TOKEN,
+      authorization: env.BEARER_TOKEN,
     },
   };
 });
