@@ -11,7 +11,7 @@ const { Navigator, Screen } = Stack;
 const Routes = () => (
   <NavigationContainer>
     <Navigator initialRouteName="Home">
-      <Screen name="Home" component={Home} />
+      <Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Screen name="Categories" component={CategoriesScreen} />
     </Navigator>
   </NavigationContainer>

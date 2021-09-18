@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, StyleSheet, FlatList } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 
 const GET_CATEGORIES = gql`
@@ -13,20 +13,30 @@ const GET_CATEGORIES = gql`
   }
 `;
 
+const Item = ({ title }) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
+
 const Categories = () => {
   const { loading, error, data } = useQuery(GET_CATEGORIES);
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>`Error! ${error.message}`</Text>;
   const { categories } = data;
+  const renderItem = ({ item }) => <Item title={item.title} />;
   return (
     <View>
-      <ScrollView>
-        {categories.category.map((el, i) => (
-          <Text key={i}>{el.title}</Text>
-        ))}
-      </ScrollView>
+      <FlatList
+        horizontal={true}
+        data={categories.category}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.title}
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default Categories;

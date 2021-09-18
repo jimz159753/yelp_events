@@ -9,10 +9,11 @@ import { setContext } from "@apollo/client/link/context";
 import Routes from "./src/Routes";
 import env from "./env";
 
+import { StatusBar } from "react-native";
+
 const httpLink = createHttpLink({
   uri: "https://api.yelp.com/v3/graphql",
 });
-console.log("process.env.BEARER_TOKEN", env.BEARER_TOKEN);
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -31,6 +32,7 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
+      <StatusBar backgroundColor="black" />
       <Routes />
     </ApolloProvider>
   );
