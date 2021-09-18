@@ -19,16 +19,28 @@ const Home = ({ navigation }) => (
     >
       <View style={styles.inputCont}>
         <Text style={styles.Txt}>I want to go</Text>
-        <TextInput style={styles.inputTxt} />
+        {/* this attributes in placeholder from API */}
+        <TextInput style={styles.inputTxt} placeholder={"locale"} />
         <Text style={styles.Txt}>In</Text>
-        <TextInput style={styles.inputTxt} />
+        <TextInput style={styles.inputTxt} placeholder={"location"} />
         <Text style={styles.Txt}>And I'm in the mood for</Text>
-        <TextInput style={styles.inputTxt} />
+        <TextInput style={styles.inputTxt} placeholder={"categories"} />
       </View>
       {/* <TouchableOpacity onPress={() => navigation.navigate("Categories")}>
         <Text>Categories</Text>
       </TouchableOpacity> */}
     </ImageBackground>
+    <Image
+      source={require("../../../assets/crowd3.png")}
+      style={{
+        position: "absolute",
+        height: 180,
+        width: 170,
+        zIndex: 1,
+        bottom: "8%",
+        right: "15%",
+      }}
+    />
   </View>
 );
 
@@ -57,10 +69,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: "#D9D9D8",
-    fontSize: 25,
+    fontFamily: "Quicksand-Medium",
+    fontSize: 16,
   },
   Txt: {
     margin: 10,
+    fontFamily: "Quicksand-SemiBold",
+    fontSize: 16,
   },
 });
 
