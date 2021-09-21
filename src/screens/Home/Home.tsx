@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -9,40 +9,72 @@ import {
   Image,
 } from "react-native";
 
-const Home = ({ navigation }) => (
-  <View style={styles.homeCont}>
-    <Image source={require("../../../assets/yelp.png")} style={styles.image} />
-    <ImageBackground
-      source={require("../../../assets/background.png")}
-      resizeMode={"cover"}
-      style={styles.background}
-    >
-      <View style={styles.inputCont}>
-        <Text style={styles.Txt}>I want to go</Text>
-        {/* this attributes in placeholder from API */}
-        <TextInput style={styles.inputTxt} placeholder={"locale"} />
-        <Text style={styles.Txt}>In</Text>
-        <TextInput style={styles.inputTxt} placeholder={"location"} />
-        <Text style={styles.Txt}>And I'm in the mood for</Text>
-        <TextInput style={styles.inputTxt} placeholder={"categories"} />
-      </View>
-      {/* <TouchableOpacity onPress={() => navigation.navigate("Categories")}>
+import { gql, useQuery } from "@apollo/client";
+
+import SelectDropdown from "react-native-select-dropdown";
+
+const GET_CATEGORIES = gql`
+  query {
+    categories {
+      category {
+        title
+        alias
+      }
+    }
+  }
+`;
+
+const Home = ({ navigation }) => {
+  const [selected, setSelected] = useState("");
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>`Error! ${error.message}`</Text>;
+  const categories = data.categories.category.map((el) => el.title);
+
+  return (
+    <View style={styles.homeCont}>
+      <Image
+        source={require("../../../assets/yelp.png")}
+        style={styles.image}
+      />
+      <ImageBackground
+        source={require("../../../assets/background.png")}
+        resizeMode={"cover"}
+        style={styles.background}
+      >
+        <View style={styles.inputCont}>
+          <Text style={styles.Txt}>I want to go</Text>
+          {/* this attributes in placeholder from API */}
+          <TextInput style={styles.inputTxt} placeholder={"locale"} />
+          <Text style={styles.Txt}>In</Text>
+          <TextInput style={styles.inputTxt} placeholder={"location"} />
+          <Text style={styles.Txt}>And I'm in the mood for</Text>
+          <SelectDropdown
+            defaultValue={selected}
+            data={categories}
+            onSelect={(selectedItem, index) => {
+              setSelected(selectedItem);
+            }}
+          />
+        </View>
+        {/* <TouchableOpacity onPress={() => navigation.navigate("Categories")}>
         <Text>Categories</Text>
       </TouchableOpacity> */}
-    </ImageBackground>
-    <Image
-      source={require("../../../assets/crowd3.png")}
-      style={{
-        position: "absolute",
-        height: 180,
-        width: 170,
-        zIndex: 1,
-        bottom: "8%",
-        right: "15%",
-      }}
-    />
-  </View>
-);
+      </ImageBackground>
+      <Image
+        source={require("../../../assets/crowd3.png")}
+        style={{
+          position: "absolute",
+          height: 180,
+          width: 170,
+          zIndex: 1,
+          bottom: "8%",
+          right: "15%",
+        }}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   homeCont: {},
